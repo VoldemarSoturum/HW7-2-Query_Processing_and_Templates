@@ -1,0 +1,132 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Автобусные станции</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static "css/normalize.css" %}">
+    <link rel="stylesheet" href="{% static "css/skeleton.css" %}">
+    <style>
+    /* ЗАМЕНИТЕ ВЕСЬ БЛОК STYLE НА ЭТОТ */
+    .table-container {
+        overflow-x: auto;
+        margin-bottom: 20px;
+    }
+
+    table {
+        font-size: 14px;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; /* ЗАМЕНИЛИ Raleway на Arial */
+        border-collapse: collapse;
+        font-weight: normal;
+    }
+
+    th {
+        background-color: #f4f4f4;
+        position: sticky;
+        top: 0;
+        white-space: nowrap;
+        font-weight: 600;
+        padding: 12px 15px;
+        border-bottom: 2px solid #E1E1E1;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; /* ЗАМЕНИЛИ */
+    }
+
+    td {
+        padding: 10px 15px;
+        border-bottom: 1px solid #E1E1E1;
+        white-space: nowrap;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: normal;
+        line-height: 1.4;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; /* ЗАМЕНИЛИ */
+    }
+
+    .paginator {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    body {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; /* ЗАМЕНИЛИ */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    h3 {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; /* ЗАМЕНИЛИ */
+    }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h3>АВТОБУСНЫЕ ОСТАНОВКИ</h3>
+
+        <div class="table-container">
+            <table class="u-full-width">
+                <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Наименование</th>
+                    <th>Административный округ</th>
+                    <th></th>
+                    <th>Latitude_WGS84</th>
+                    <th>AdmArea</th>
+                    <th>District</th>
+                    <th>RouteNumbers</th>
+                    <th>StationName</th>
+                    <th>Direction</th>
+                    <th>Pavilion</th>
+                    <th>OperatingOrgName</th>
+                    <th>EntryState</th>
+                    <th>global_id</th>
+                    <th>PlaceDescription</th>
+                    <th>Works</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for station in bus_stations %}
+                    <tr>
+                        <td>{{ station.ID|default:"-" }}</td>
+                        <td>{{ station.Name|default:"-" }}</td>
+                        <td>{{ station.AdmArea|default:"-" }}</td>
+
+                        <td>{{ station.Longitude_WGS84|default:"-" }}</td>
+                        <td>{{ station.Latitude_WGS84|default:"-" }}</td>
+
+                        <td>{{ station.District|default:"-" }}</td>
+                        <td>{{ station.RouteNumbers|default:"-" }}</td>
+                        <td>{{ station.StationName|default:"-" }}</td>
+                        <td>{{ station.Direction|default:"-" }}</td>
+                        <td>{{ station.Pavilion|default:"-" }}</td>
+                        <td>{{ station.OperatingOrgName|default:"-" }}</td>
+                        <td>{{ station.EntryState|default:"-" }}</td>
+                        <td>{{ station.global_id|default:"-" }}</td>
+                        <td>{{ station.PlaceDescription|default:"-" }}</td>
+                        <td>{{ station.Works|default:"-" }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="paginator">
+            {% if page.has_previous %}
+                <a class="button button-primary" href="?page={{ page.previous_page_number }}">⟵ НАЗАД</a>
+            {% endif %}
+            <a class="button disabled" href="">Страница {{ page.number }} из {{ page.paginator.num_pages }}</a>
+            {% if page.has_next %}
+                <a class="button button-primary" href="?page={{ page.next_page_number }}">ВПЕРЕД ⟶</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
