@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Рецепты</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 12px; }
+    .chips a { display: inline-block; padding: 4px 8px; border: 1px solid #ccc; border-radius: 999px; margin-right: 6px; text-decoration: none; }
+    .muted { color: #666; font-size: 14px; }
+    form { margin-bottom: 16px; }
+    input[type=number] { width: 80px; }
+  </style>
+</head>
+<body>
+  <h1>Помощник по готовке</h1>
+
+  <form method="get" action="">
+    <label>
+      Порций:
+      <input type="number" name="servings" min="1" value="{{ servings|default:'1' }}">
+    </label>
+    <button type="submit">Применить ко всем ссылкам</button>
+    <span class="muted">или выбери пресет у каждого рецепта</span>
+  </form>
+
+  <div class="grid">
+    {% for slug in recipes %}
+      <div class="card">
+        <h3 style="margin: 0 0 8px 0;">{{ slug }}</h3>
+
+        <p style="margin: 0 0 8px 0;">
+          <a href="{% url 'recipe' recipe=slug %}{% if servings %}?servings={{ servings }}{% endif %}">
+            Открыть рецепт{% if servings %} ({{ servings }} порц.){% endif %}
+          </a>
+        </p>
+
+        <div class="chips">
+          Быстро:
+          {% for n in presets %}
+            <a href="{% url 'recipe' recipe=slug %}?servings={{ n }}">{{ n }} порц.</a>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
