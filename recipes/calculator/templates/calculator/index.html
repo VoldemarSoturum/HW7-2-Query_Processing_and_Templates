@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if title %}{{ title }}{% else %}Рецепт{% endif %}</title>
+</head>
+<body>
+{% if recipe %}
+  <h1>{{ title }} — {{ servings }} порц.</h1>
+  {% for ingredient, amount in recipe.items %}
+    <p>{{ ingredient }}: {{ amount }}</p>
+    {% endfor %}
+{% else %}
+  <p>Такого рецепта не знаю :(</p>
+{% endif %}
+</body>
+</html>
